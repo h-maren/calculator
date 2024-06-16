@@ -45,6 +45,7 @@ const numButtons=document.querySelectorAll(".num");
 //console.log(numButtons);
 let display=document.querySelector(".display");
 const equalsButton=document.querySelector(".equals");
+const clearButton=document.querySelector(".clear");
 
 numButtons.forEach((button)=>{
     button.addEventListener("click", () => {
@@ -91,4 +92,16 @@ equalsButton.addEventListener("click", () => {
         console.log(result);
         display.textContent=result;
     }
+});
+
+//when you press clear it clears all values
+clearButton.addEventListener("click", () => {
+    display.textContent="";
+    firstNum="";
+    secondNum="";
+    operator="";
+    firstNumFlag=0;
+    secondNumFlag=0;
+    operatorFlag=0;
+    inputValue=0;
 });
