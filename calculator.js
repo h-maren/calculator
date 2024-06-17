@@ -74,8 +74,8 @@ operatorButtons.forEach((button)=>{
         if(firstNumFlag==0){//operator hasn't been selected yet, after firstNum is being input
             firstNumFlag=1;
             firstNum=inputValue;
-            console.log(firstNum);
-            console.log(operator);
+            //console.log(firstNum);
+            //console.log(operator);
             //operatorFlag=1;
         }
         else if((operatorFlag==1)&&(firstNumFlag==1)&&(secondNumFlag==1)){//this is case where we input 3 numbers but want to treat operator as equal sign (keep calculating)
@@ -103,17 +103,27 @@ function equalFunction () {
     if((firstNumFlag==1)&&(operatorFlag==1)&&(secondNumFlag==1)){
         secondNum=inputValue;
         //console.log(secondNum);
-        let result=operate(firstNum,operator,secondNum);
-        console.log(result);
-        display.textContent=result;
-        //after this, the result is now the firstNum (for additional operator), and clear the secondNum and operator
-        firstNum=result;
-        secondNum="";
-        secondNumFlag=0;
-        operatorFlag=0;
-        console.log("equals was executed!")
-        //console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`);
-       // console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        if ((operator=="/")&&(secondNum==0)){
+            alert("Divide by 0?!\nNot even Chuck Norris can do that!");
+            clearAllValues();
+        }
+        else {
+            let result=Math.round(operate(firstNum,operator,secondNum)*10000000)/10000000;
+            console.log(result);
+            display.textContent=result;
+            //after this, the result is now the firstNum (for additional operator), and clear the secondNum and operator
+            firstNum=result;
+            secondNum="";
+            secondNumFlag=0;
+            operatorFlag=0;
+            console.log("equals was executed!")
+            //console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`);
+           // console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        }
+    }
+    else {
+        alert("Not ready for equals yet!");
+        clearAllValues();
     };
 };
 
