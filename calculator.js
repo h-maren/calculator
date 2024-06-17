@@ -19,7 +19,7 @@ function divide (a,b){
 
 //takes the operation and returns which function to use
 function operate(firstNum,operator,secondNum){
-    console.log(operator);
+    //console.log(operator);
     switch(operator){
         case "+":
             return add(firstNum,secondNum);
@@ -51,16 +51,16 @@ numButtons.forEach((button)=>{
     button.addEventListener("click", () => {
         let buttonText=button.textContent;
         console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
-        if((firstNumFlag==1)&&(operatorFlag==1)){
+        if((firstNumFlag==1)&&(secondNumFlag==0)){
             //first clear the display 
             display.textContent="";
             //now we're doing secondNum
             secondNumFlag=1;
-            console.log("on second number now");
+            //console.log("on second number now");
         }
         display.textContent+=buttonText;
         inputValue=display.textContent;
-        console.log(inputValue);
+        //console.log(inputValue);
         return inputValue;
     });
 });
@@ -69,25 +69,31 @@ numButtons.forEach((button)=>{
 operatorButtons.forEach((button)=>{
     button.addEventListener("click", () => {
         //operator has been selected so we set the flag
-        console.log(inputValue);
-        if(operatorFlag==0){//operator hasn't been selected yet
-            operator=button.textContent;
-            console.log(operator);
-            operatorFlag=1;
-        }
-        else if((operatorFlag==1)&&((firstNumFlag==0)||(secondNumFlag==0))){
-            //break out of code if operator is set but not all numbers are and clear all values
-            alert("Double operators!");
-            clearAllValues();
-        }
-        if((firstNumFlag==0)&&(secondNumFlag==0)){
+        //console.log(inputValue);
+        console.log(`Before operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        if(firstNumFlag==0){//operator hasn't been selected yet, after firstNum is being input
             firstNumFlag=1;
             firstNum=inputValue;
             console.log(firstNum);
+            console.log(operator);
+            //operatorFlag=1;
+        }
+        else if((operatorFlag==1)&&(firstNumFlag==1)&&(secondNumFlag==1)){//this is case where we input 3 numbers but want to treat operator as equal sign (keep calculating)
+            equalFunction();
+        }
+        /*else if((operatorFlag==0)&&(firstNumFlag==1)&&(secondNumFlag==0)){//this is case after pressing equal sign, but we want to keep calculating after
+            operatorFlag=1;
+            operator=button.textContent;
+        }*/
+        else if((operatorFlag==1)&&((firstNumFlag==0)&&(secondNumFlag==0))){
+            //break out of code if operator is set but not all numbers are and clear all values
+            alert("Double operators!");
+            clearAllValues();
         };
         //clicking another operator after putting in second number should follow equals operator (relevant if statement is already in the equals sign)
-        console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
-        equalFunction();
+        operatorFlag=1;
+        operator=button.textContent;
+        console.log(`After operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
     });
 });
 
@@ -96,8 +102,7 @@ operatorButtons.forEach((button)=>{
 function equalFunction () {
     if((firstNumFlag==1)&&(operatorFlag==1)&&(secondNumFlag==1)){
         secondNum=inputValue;
-        console.log(secondNum);
-        console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`);
+        //console.log(secondNum);
         let result=operate(firstNum,operator,secondNum);
         console.log(result);
         display.textContent=result;
@@ -105,13 +110,18 @@ function equalFunction () {
         firstNum=result;
         secondNum="";
         secondNumFlag=0;
+        operatorFlag=0;
+        console.log("equals was executed!")
+        //console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`);
+       // console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
     };
 };
 
 //function for clicking equals sign or for 
 equalsButton.addEventListener("click", () => {
     equalFunction();
-    operatorFlag=0;
+    //console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+    //console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`)
 });
 
 //when you press clear it clears all values
