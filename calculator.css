@@ -37,3 +37,7 @@ button {
     justify-content: center;
     color: purple;
 }
+
+.clear, .backspace {
+    width: 200px;
+}

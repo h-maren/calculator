@@ -1,14 +1,14 @@
 //initial variables
-let firstNum="";
-let secondNum="";
+let firstNum=0;
+let secondNum=0;
 let operator="";
 
 //basic math functions
 function add(a,b){
-    return parseInt(a)+parseInt(b);
+    return Number(a)+Number(b);
 }
 function subtract(a,b){
-    return parseInt(a)-parseInt(b);
+    return Number(a)-Number(b);
 }
 function multiply (a,b){
     return a*b;
@@ -37,6 +37,7 @@ let firstNumFlag=0; //this flag tells whether or not first number was already pu
 let secondNumFlag=0; //this flag tells whether or not second number was already put in
 let operatorFlag=0; //this flag tells whether operator has already been put in
 let inputValue=0;
+let decimalFlag=0; //if decimal has been selected;
 
 //when clicking on buttons, put in display
 const operatorButtons=document.querySelectorAll(".operator");
@@ -46,6 +47,8 @@ const numButtons=document.querySelectorAll(".num");
 let display=document.querySelector(".display");
 const equalsButton=document.querySelector(".equals");
 const clearButton=document.querySelector(".clear");
+const decButton=document.querySelector(".decimal");
+const backButton=document.querySelector(".backspace");
 
 numButtons.forEach((button)=>{
     button.addEventListener("click", () => {
@@ -59,12 +62,29 @@ numButtons.forEach((button)=>{
             //console.log("on second number now");
         }
         display.textContent+=buttonText;
-        inputValue=display.textContent;
+        inputValue=Number(display.textContent);
         //console.log(inputValue);
         return inputValue;
     });
 });
 
+//adding decimal functionality
+decButton.addEventListener("click", ()=> {
+    if(decimalFlag==0){
+        if((inputValue==0)&&(firstNumFlag==0)){
+            display.textContent+="0.";
+            console.log(inputValue);
+        }
+        else if ((firstNumFlag==1)&&(secondNumFlag==0)){
+            display.textContent="0.";
+            secondNumFlag=1;
+        }
+        else {
+            display.textContent+=".";
+        }
+    decimalFlag=1;
+    }
+});
 
 operatorButtons.forEach((button)=>{
     button.addEventListener("click", () => {
@@ -74,6 +94,7 @@ operatorButtons.forEach((button)=>{
         if(firstNumFlag==0){//operator hasn't been selected yet, after firstNum is being input
             firstNumFlag=1;
             firstNum=inputValue;
+            decimalFlag=0;
             //console.log(firstNum);
             //console.log(operator);
             //operatorFlag=1;
@@ -94,6 +115,7 @@ operatorButtons.forEach((button)=>{
         operatorFlag=1;
         operator=button.textContent;
         console.log(`After operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        console.log(`Input value is: ${inputValue}`);
     });
 });
 
@@ -108,7 +130,7 @@ function equalFunction () {
             clearAllValues();
         }
         else {
-            let result=Math.round(operate(firstNum,operator,secondNum)*10000000)/10000000;
+            let result=operate(firstNum,operator,secondNum);
             console.log(result);
             display.textContent=result;
             //after this, the result is now the firstNum (for additional operator), and clear the secondNum and operator
@@ -116,6 +138,7 @@ function equalFunction () {
             secondNum="";
             secondNumFlag=0;
             operatorFlag=0;
+            decimalFlag=0;
             console.log("equals was executed!")
             //console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`);
            // console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
@@ -137,14 +160,26 @@ equalsButton.addEventListener("click", () => {
 //when you press clear it clears all values
 clearButton.addEventListener("click", clearAllValues);
 
+//adding backspace
+backButton.addEventListener("click", () =>{
+    let lastCharacterIndex=display.textContent.length;
+    let lastCharacter=display.textContent.substring(0,lastCharacterIndex-1);
+    let displayResult=display.textContent.slice(0,-1);
+
+    console.log(displayResult);
+    console.log(lastCharacter);
+    console.log(lastCharacterIndex);
+})
+
 function clearAllValues() {
     display.textContent="";
-    firstNum="";
-    secondNum="";
+    firstNum=0;
+    secondNum=0;
     operator="";
     firstNumFlag=0;
     secondNumFlag=0;
     operatorFlag=0;
+    decimalFlag=0;
     inputValue=0;
 };
 
