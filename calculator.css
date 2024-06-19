@@ -20,6 +20,7 @@ button {
     font-size: 20px;
     background-color: rgb(241, 216, 221);
     color: #2e002e;
+    border-radius:10%;
 
 }
 .display {
@@ -40,4 +41,9 @@ button {
 
 .clear, .backspace {
     width: 200px;
+    background-color: lightblue;
+}
+
+.operator, .equals, .decimal {
+    background-color: lightsalmon;
 }

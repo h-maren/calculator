@@ -53,7 +53,7 @@ const backButton=document.querySelector(".backspace");
 numButtons.forEach((button)=>{
     button.addEventListener("click", () => {
         let buttonText=button.textContent;
-        console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        //console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
         if((firstNumFlag==1)&&(secondNumFlag==0)){
             //first clear the display 
             display.textContent="";
@@ -73,7 +73,7 @@ decButton.addEventListener("click", ()=> {
     if(decimalFlag==0){
         if((inputValue==0)&&(firstNumFlag==0)){
             display.textContent+="0.";
-            console.log(inputValue);
+            //console.log(inputValue);
         }
         else if ((firstNumFlag==1)&&(secondNumFlag==0)){
             display.textContent="0.";
@@ -90,7 +90,7 @@ operatorButtons.forEach((button)=>{
     button.addEventListener("click", () => {
         //operator has been selected so we set the flag
         //console.log(inputValue);
-        console.log(`Before operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        //console.log(`Before operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
         if(firstNumFlag==0){//operator hasn't been selected yet, after firstNum is being input
             firstNumFlag=1;
             firstNum=inputValue;
@@ -114,8 +114,8 @@ operatorButtons.forEach((button)=>{
         //clicking another operator after putting in second number should follow equals operator (relevant if statement is already in the equals sign)
         operatorFlag=1;
         operator=button.textContent;
-        console.log(`After operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
-        console.log(`Input value is: ${inputValue}`);
+        //console.log(`After operator selection - First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
+        //console.log(`Input value is: ${inputValue}`);
     });
 });
 
@@ -131,15 +131,15 @@ function equalFunction () {
         }
         else {
             let result=operate(firstNum,operator,secondNum);
-            console.log(result);
-            display.textContent=result;
+            //console.log(result);
+            display.textContent=Math.round(result*100000)/100000;
             //after this, the result is now the firstNum (for additional operator), and clear the secondNum and operator
             firstNum=result;
             secondNum="";
             secondNumFlag=0;
             operatorFlag=0;
             decimalFlag=0;
-            console.log("equals was executed!")
+            //console.log("equals was executed!")
             //console.log(`First num, operator, second num: ${firstNum}, ${operator},${secondNum}`);
            // console.log(`First num, operator, second num flags: ${firstNumFlag},${operatorFlag},${secondNumFlag}`);
         }
@@ -163,13 +163,16 @@ clearButton.addEventListener("click", clearAllValues);
 //adding backspace
 backButton.addEventListener("click", () =>{
     let lastCharacterIndex=display.textContent.length;
-    let lastCharacter=display.textContent.substring(0,lastCharacterIndex-1);
+    let lastCharacter=display.textContent.slice(-1);
     let displayResult=display.textContent.slice(0,-1);
-
-    console.log(displayResult);
+    display.textContent=displayResult;
+    if(lastCharacter=="."){
+        decimalFlag=0;
+    }
+    /*console.log(displayResult);
     console.log(lastCharacter);
-    console.log(lastCharacterIndex);
-})
+    console.log(lastCharacterIndex);*/
+});
 
 function clearAllValues() {
     display.textContent="";
